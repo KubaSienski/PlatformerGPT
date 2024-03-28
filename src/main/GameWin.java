@@ -10,6 +10,7 @@ public class GameWin extends JFrame {
         add(gamePanel);
         setResizable(false);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
         addWindowFocusListener(new WindowFocusListener() {
             @Override
