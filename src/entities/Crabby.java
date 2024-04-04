@@ -1,22 +1,17 @@
 package entities;
 
 import main.Game;
+import utilz.Constants;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
-
-import static utilz.Constants.Directions.*;
-import static utilz.Constants.EnemyConstants.*;
 
 public class Crabby extends Enemy{
 
-    // Attack box
-    private Rectangle2D.Float attackBox;
     private int attackBoxOffsetX;
 
     public Crabby(float x, float y) {
-        super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY);
-        initHitbox(x,y,(int)(22 * Game.SCALE),(int)(19 * Game.SCALE));
+        super(x, y, Constants.EnemyConstants.CRABBY_WIDTH, Constants.EnemyConstants.CRABBY_HEIGHT, Constants.EnemyConstants.CRABBY);
+        initHitbox(22,19);
         initAttackBox();
     }
 
@@ -42,17 +37,17 @@ public class Crabby extends Enemy{
         if(inAir){
             updateInAir(lvlData);
         }else {
-            switch (enemyState){
-                case IDLE -> newState(RUNNING);
-                case RUNNING -> {
+            switch (state){
+                case Constants.EnemyConstants.IDLE -> newState(Constants.EnemyConstants.RUNNING);
+                case Constants.EnemyConstants.RUNNING -> {
                     if(canSeePlayer(lvlData, player)) {
                         turnTowardsPlayer(player);
                         if (isPlayerCloseForAttack(player))
-                            newState(ATTACK);
+                            newState(Constants.EnemyConstants.ATTACK);
                     }
                     move(lvlData);
                 }
-                case ATTACK -> {
+                case Constants.EnemyConstants.ATTACK -> {
                     if(aniIndex == 0)
                         attackChecked = false;
 
@@ -63,19 +58,13 @@ public class Crabby extends Enemy{
         }
     }
 
-
-    public void drawAttackBox(Graphics g, int xLvlOffset){
-        g.setColor(Color.RED);
-        g.drawRect((int) attackBox.x - xLvlOffset, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
-    }
-
     public int flipX(){
-        if(walkDir == RIGHT)
+        if(walkDir == Constants.Directions.RIGHT)
             return width;
         else return 0;
     }
     public int flipW(){
-        if(walkDir == RIGHT)
+        if(walkDir == Constants.Directions.RIGHT)
             return -1;
         else return 1;
     }

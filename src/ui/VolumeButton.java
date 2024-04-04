@@ -1,11 +1,10 @@
 package ui;
 
+import utilz.Constants;
 import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
-import static utilz.Constants.UI.VolumeButtons.*;
 
 
 public class VolumeButton extends PauseButton{
@@ -17,13 +16,13 @@ public class VolumeButton extends PauseButton{
     private int buttonX,minX,maxX;
 
     public VolumeButton(int x, int y, int width, int height) {
-        super(x + width/2, y, VOLUME_WIDTH, height);
-        bounds.x-=VOLUME_WIDTH/2;
+        super(x + width/2, y, Constants.UI.VolumeButtons.VOLUME_WIDTH, height);
+        bounds.x-= Constants.UI.VolumeButtons.VOLUME_WIDTH /2;
         buttonX = x + width/2;
         this.x = x;
         this.width = width;
-        minX = x+VOLUME_WIDTH/2;
-        maxX = x + width-VOLUME_WIDTH/2;
+        minX = x+ Constants.UI.VolumeButtons.VOLUME_WIDTH /2;
+        maxX = x + width- Constants.UI.VolumeButtons.VOLUME_WIDTH /2;
         loadImgs();
     }
 
@@ -31,9 +30,15 @@ public class VolumeButton extends PauseButton{
         BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.VOLUME_BUTTONS);
         imgs = new BufferedImage[3];
         for(int i = 0; i < imgs.length; i++)
-            imgs[i] = temp.getSubimage(i * VOLUME_WIDTH_DEFAULT, 0,VOLUME_WIDTH_DEFAULT, VOLUME_HEIGHT_DEFAULT);
+            imgs[i] = temp.getSubimage(i * Constants.UI.VolumeButtons.VOLUME_WIDTH_DEFAULT,
+                    0,
+                    Constants.UI.VolumeButtons.VOLUME_WIDTH_DEFAULT,
+                    Constants.UI.VolumeButtons.VOLUME_HEIGHT_DEFAULT);
 
-        slider = temp.getSubimage(3 * VOLUME_WIDTH_DEFAULT, 0, SLIDER_WIDTH_DEFAULT, VOLUME_HEIGHT_DEFAULT);
+        slider = temp.getSubimage(3 * Constants.UI.VolumeButtons.VOLUME_WIDTH_DEFAULT,
+                0,
+                Constants.UI.VolumeButtons.SLIDER_WIDTH_DEFAULT,
+                Constants.UI.VolumeButtons.VOLUME_HEIGHT_DEFAULT);
     }
 
     public void update(){
@@ -46,27 +51,25 @@ public class VolumeButton extends PauseButton{
 
     public void draw(Graphics g){
         g.drawImage(slider, x,y,width,height, null);
-        g.drawImage(imgs[index], buttonX - VOLUME_WIDTH/2, y, VOLUME_WIDTH, height, null);
+        g.drawImage(imgs[index],
+                buttonX - Constants.UI.VolumeButtons.VOLUME_WIDTH /2,
+                y,
+                Constants.UI.VolumeButtons.VOLUME_WIDTH,
+                height,
+                null);
     }
 
     public void changeX(int x){
         if(x<minX)
             buttonX = minX;
-        else if(x>maxX)
-            buttonX = maxX;
-        else
-            buttonX = x;
+        else buttonX = Math.min(x, maxX);
 
-        bounds.x = buttonX - VOLUME_WIDTH/2;
+        bounds.x = buttonX - Constants.UI.VolumeButtons.VOLUME_WIDTH /2;
     }
 
     public void resetBools(){
         mouseOver = false;
         mousePressed = false;
-    }
-
-    public boolean isMouseOver() {
-        return mouseOver;
     }
 
     public void setMouseOver(boolean mouseOver) {

@@ -5,13 +5,10 @@ import inputs.MouseInputs;
 
 import javax.swing.*;
 import java.awt.*;
-import static main.Game.GAME_HEIGHT;
-import static main.Game.GAME_WIDTH;
 
 public class GamePanel extends JPanel {
 
-    private final MouseInputs mouseInputs = new MouseInputs(this);
-    private Game game;
+    private final Game game;
 
     public GamePanel(Game game) {
 
@@ -19,16 +16,14 @@ public class GamePanel extends JPanel {
         setPanelSize();
 
         addKeyListener(new KeyboardInputs(this));
+        MouseInputs mouseInputs = new MouseInputs(this);
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
     }
 
     private void setPanelSize() {
-        Dimension size = new Dimension(GAME_WIDTH, GAME_HEIGHT);
+        Dimension size = new Dimension(Game.GAME_WIDTH, Game.GAME_HEIGHT);
         setPreferredSize(size);
-    }
-
-    public void updateGame() {
     }
 
     //paint

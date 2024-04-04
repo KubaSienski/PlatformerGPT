@@ -1,11 +1,10 @@
 package ui;
 
+import utilz.Constants;
 import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
-import static utilz.Constants.UI.URMButtons.*;
 
 public class UrmButton extends PauseButton{
     private BufferedImage[] imgs;
@@ -22,7 +21,10 @@ public class UrmButton extends PauseButton{
         BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.URM_BUTTONS);
         imgs = new BufferedImage[3];
         for(int i = 0; i< imgs.length; i++){
-            imgs[i] = temp.getSubimage(i*URM_SIZE_DEFAULT, rowIndex * URM_SIZE_DEFAULT, URM_SIZE_DEFAULT, URM_SIZE_DEFAULT);
+            imgs[i] = temp.getSubimage(i* Constants.UI.URMButtons.URM_SIZE_DEFAULT,
+                    rowIndex * Constants.UI.URMButtons.URM_SIZE_DEFAULT,
+                    Constants.UI.URMButtons.URM_SIZE_DEFAULT,
+                    Constants.UI.URMButtons.URM_SIZE_DEFAULT);
         }
     }
 
@@ -35,16 +37,13 @@ public class UrmButton extends PauseButton{
     }
 
     public void draw(Graphics g){
-        g.drawImage(imgs[index], x, y, URM_SIZE, URM_SIZE, null);
+        g.drawImage(imgs[index], x, y,
+                Constants.UI.URMButtons.URM_SIZE, Constants.UI.URMButtons.URM_SIZE, null);
     }
 
     public void resetBools(){
         mouseOver = false;
         mousePressed = false;
-    }
-
-    public boolean isMouseOver() {
-        return mouseOver;
     }
 
     public void setMouseOver(boolean mouseOver) {

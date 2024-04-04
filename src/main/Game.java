@@ -8,8 +8,8 @@ import java.awt.*;
 
 public class Game implements Runnable {
 
-    private GameWin gameWin;
-    private GamePanel gamePanel;
+    private final GameWin gameWin;
+    private final GamePanel gamePanel;
     private Thread gameThread;
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;

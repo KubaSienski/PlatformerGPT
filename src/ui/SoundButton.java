@@ -1,11 +1,10 @@
 package ui;
 
+import utilz.Constants;
 import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
-import static utilz.Constants.UI.PauseButtons.*;
 
 public class SoundButton extends PauseButton{
 
@@ -25,7 +24,10 @@ public class SoundButton extends PauseButton{
         soundImgs = new BufferedImage[2][3];
         for(int i = 0; i < soundImgs.length; i++)
             for (int j = 0; j < soundImgs[i].length; j++)
-                soundImgs[i][j] = temp.getSubimage(j * SOUND_SIZE_DEFAULT, i * SOUND_SIZE_DEFAULT, SOUND_SIZE_DEFAULT, SOUND_SIZE_DEFAULT);
+                soundImgs[i][j] = temp.getSubimage(j * Constants.UI.PauseButtons.SOUND_SIZE_DEFAULT,
+                        i * Constants.UI.PauseButtons.SOUND_SIZE_DEFAULT,
+                        Constants.UI.PauseButtons.SOUND_SIZE_DEFAULT,
+                        Constants.UI.PauseButtons.SOUND_SIZE_DEFAULT);
     }
 
     public void update(){
@@ -48,10 +50,6 @@ public class SoundButton extends PauseButton{
 
     public void draw(Graphics g){
         g.drawImage(soundImgs[rowIndex][columnIndex], x, y, width, height, null);
-    }
-
-    public boolean isMouseOver() {
-        return mouseOver;
     }
 
     public void setMouseOver(boolean mouseOver) {
