@@ -33,6 +33,7 @@ public class LevelManager {
         game.getPlaying().getEnemyManager().loadEnemies(newLevel);
         game.getPlaying().getPlayer().loadLvlData(newLevel.getLvlData());
         game.getPlaying().setMaxLvlOffsetX(newLevel.getMaxLvlOffsetX());
+        game.getPlaying().getObjectManager().loadObjects(newLevel);
     }
 
     private void buildAllLevels() {
@@ -57,7 +58,11 @@ public class LevelManager {
         for(int i = 0; i < Game.TILES_IN_HEIGHT; i++){
             for(int j = 0; j<levels.get(lvlIndex).getLvlData()[0].length; j++){
                 int index = levels.get(lvlIndex).getSpriteIndex(j,i);
-                g.drawImage(levelSprite[index], j * Game.TILES_SIZE - lvlOffset,i * Game.TILES_SIZE, Game.TILES_SIZE, Game.TILES_SIZE, null);
+                g.drawImage(levelSprite[index], j * Game.TILES_SIZE - lvlOffset,
+                        i * Game.TILES_SIZE,
+                        Game.TILES_SIZE,
+                        Game.TILES_SIZE,
+                        null);
             }
         }
     }
@@ -67,8 +72,5 @@ public class LevelManager {
 
     public Level GetCurrentLevel(){
         return levels.get(lvlIndex);
-    }
-    public int getAmountOfLevels(){
-        return levels.size();
     }
 }

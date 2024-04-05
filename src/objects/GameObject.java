@@ -72,4 +72,7 @@ public class GameObject {
     public int getAniIndex() {
         return aniIndex;
     }
+    public void setDoAnimation(boolean doAnimation) {
+        this.doAnimation = doAnimation;
+    }
 }

@@ -20,6 +20,9 @@ public class GameContainer extends GameObject {
             xDrawOffset = (int) (Game.SCALE * 8);
             yDrawOffset = (int) (Game.SCALE * 5);
         }
+
+        hitbox.y += yDrawOffset + (int)(Game.SCALE * 2);
+        hitbox.x += (float) xDrawOffset /2;
     }
     public void update(){
         if(doAnimation)

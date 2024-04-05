@@ -14,7 +14,6 @@ import utilz.LoadSave;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -65,6 +64,7 @@ public class Playing extends State implements Statemethods {
 
     private void loadStartLevel() {
         enemyManager.loadEnemies(levelManager.GetCurrentLevel());
+        objectManager.loadObjects(levelManager.GetCurrentLevel());
     }
 
     private void calcLvlOffset() {
@@ -147,14 +147,11 @@ public class Playing extends State implements Statemethods {
         lvlCompleted = false;
         player.resetAll();
         enemyManager.resetAllEnemies();
+        objectManager.resetAllObjects();
     }
 
     public void setGameOver(boolean gameOver){
         this.gameOver = gameOver;
-    }
-
-    public void checkEnemyHit(Rectangle2D.Float attackBox) {
-        enemyManager.checkEnemyHit(attackBox);
     }
 
     @Override
@@ -247,5 +244,11 @@ public class Playing extends State implements Statemethods {
     }
     public void setLvlCompleted(boolean lvlCompleted){
         this.lvlCompleted = lvlCompleted;
+    }
+    public ObjectManager getObjectManager() {
+        return objectManager;
+    }
+    public LevelManager getLevelManager() {
+        return levelManager;
     }
 }
