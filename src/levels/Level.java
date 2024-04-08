@@ -49,6 +49,9 @@ public class Level {
     public int getMaxLvlOffsetX(){
         return maxLvlOffsetX;
     }
+    public int getLvlTilesWide() {
+        return lvlTilesWide;
+    }
     public ArrayList<Crabby> getCrabs() {
         return crabs;
     }
