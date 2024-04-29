@@ -16,14 +16,14 @@ public class LevelGenerator {
         final Color box = new Color(11, 10, 3);
         final Color spikes = new Color(11, 10, 4);
 
-        boolean isPassable = true;
+        boolean isPassable = false;
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics g = image.getGraphics();
 
         Color[][] pixels = new Color[width][height];
 
-        while (isPassable) {
+        while (!isPassable) {
 
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
@@ -34,7 +34,7 @@ public class LevelGenerator {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     pixels[x][height - 1] = floor;
-                    if (y <= height - 2 && y >= height - 4) {
+                    if (y <= height - 2 && y >= height - 3) {
                         int rnd = (int) (Math.random() * 18);
                         if (rnd == 0) pixels[x][y] = floor;
                     }
@@ -93,8 +93,6 @@ public class LevelGenerator {
                 }
             }
             isPassable = LevelValidator.isLevelPassable(image);
-            if(isPassable) System.out.println("gitara");
-            else System.out.println("huj");
         }
 
         return image;

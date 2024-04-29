@@ -1,17 +1,8 @@
 package utilz;
 
-import entities.Crabby;
 import main.Game;
-import objects.GameContainer;
-import objects.Potion;
-import objects.Spike;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-
-import static utilz.Constants.ObjectConstants.*;
 
 public class HelpMethods {
 
@@ -92,85 +83,18 @@ public class HelpMethods {
         return true;
     }
 
-    public static boolean IsSightClear(int[][] lvlData, Rectangle2D.Float firstHitbox,
-                                       Rectangle2D.Float secondHitbox, int yTile){
-        int firstXTile = (int) (firstHitbox.x / Game.TILES_SIZE);
-        int secondXTile = (int) (secondHitbox.x / Game.TILES_SIZE);
+    public static boolean IsSightClear(int[][] lvlData, Rectangle2D.Float enemyBox, Rectangle2D.Float playerBox, int yTile) {
+        int firstXTile = (int) (enemyBox.x / Game.TILES_SIZE);
 
-        if(firstXTile > secondXTile)
+        int secondXTile;
+        if (IsSolid(playerBox.x, playerBox.y + playerBox.height + 1, lvlData))
+            secondXTile = (int) (playerBox.x / Game.TILES_SIZE);
+        else
+            secondXTile = (int) ((playerBox.x + playerBox.width) / Game.TILES_SIZE);
+
+        if (firstXTile > secondXTile)
             return IsAllTilesWalkable(secondXTile, firstXTile, yTile, lvlData);
         else
             return IsAllTilesWalkable(firstXTile, secondXTile, yTile, lvlData);
-    }
-
-    public static int[][] GetLevelData(BufferedImage img){
-
-        int[][] lvlData = new int[img.getHeight()][img.getWidth()];
-
-        for(int i = 0; i< img.getHeight();i++){
-            for (int j = 0; j< img.getWidth();j++){
-                Color color = new Color(img.getRGB(j,i));
-                int value = color.getRed();
-                if(value>=48) value = 0;
-                lvlData[i][j] = value;
-            }
-        }
-        return lvlData;
-    }
-
-    public static ArrayList<Crabby> GetCrabs(BufferedImage img){
-        ArrayList<Crabby> list = new ArrayList<>();
-
-        for(int i = 0; i< img.getHeight();i++){
-            for (int j = 0; j< img.getWidth();j++){
-                Color color = new Color(img.getRGB(j,i));
-                int value = color.getGreen();
-                if(value== Constants.EnemyConstants.CRABBY)
-                    list.add(new Crabby(j* Game.TILES_SIZE, i* Game.TILES_SIZE));
-            }
-        }
-        return list;
-    }
-
-    public static ArrayList<Potion> GetPotions(BufferedImage img){
-        ArrayList<Potion> list = new ArrayList<>();
-
-        for(int i = 0; i< img.getHeight();i++){
-            for (int j = 0; j< img.getWidth();j++){
-                Color color = new Color(img.getRGB(j,i));
-                int value = color.getBlue();
-                if(value== BLUE_POTION || value == RED_POTION)
-                    list.add(new Potion(j* Game.TILES_SIZE, i * Game.TILES_SIZE, value));
-            }
-        }
-        return list;
-    }
-
-    public static ArrayList<GameContainer> GetContainers(BufferedImage img){
-        ArrayList<GameContainer> list = new ArrayList<>();
-
-        for(int i = 0; i< img.getHeight();i++){
-            for (int j = 0; j< img.getWidth();j++){
-                Color color = new Color(img.getRGB(j,i));
-                int value = color.getBlue();
-                if(value== BOX || value == BARREL)
-                    list.add(new GameContainer(j* Game.TILES_SIZE, i * Game.TILES_SIZE, value));
-            }
-        }
-        return list;
-    }
-
-    public static ArrayList<Spike> GetSpikes(BufferedImage img) {
-        ArrayList<Spike> list = new ArrayList<>();
-
-        for(int i = 0; i< img.getHeight();i++){
-            for (int j = 0; j< img.getWidth();j++){
-                Color color = new Color(img.getRGB(j,i));
-                int value = color.getBlue();
-                if(value == SPIKE)
-                    list.add(new Spike(j* Game.TILES_SIZE, i * Game.TILES_SIZE, SPIKE));
-            }
-        }
-        return list;
     }
 }

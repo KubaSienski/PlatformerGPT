@@ -41,6 +41,7 @@ public class Playing extends State implements Statemethods {
 
     private boolean gameOver;
     private boolean lvlCompleted = false;
+    private boolean deathAdded = false;
 
     public Playing(Game game) {
         super(game);
@@ -58,8 +59,8 @@ public class Playing extends State implements Statemethods {
     }
 
     public void loadNextLevel(){
-        resetAll();
         levelManager.loadNextLevel();
+        resetAll();
     }
 
     private void loadStartLevel() {
@@ -125,9 +126,13 @@ public class Playing extends State implements Statemethods {
             g.setColor(new Color(0,0,0, 150));
             g.fillRect(0,0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
             pauseOverlay.draw(g);
-        } else if (gameOver)
+        } else if (gameOver) {
+            if(!deathAdded){
+                deathAdded = true;
+                levelManager.increaseDeathCount();
+            }
             gameOverOverlay.draw(g);
-        else if (lvlCompleted)
+        } else if (lvlCompleted)
             levelCompletedOverlay.draw(g);
     }
 
@@ -148,6 +153,7 @@ public class Playing extends State implements Statemethods {
         player.resetAll();
         enemyManager.resetAllEnemies();
         objectManager.resetAllObjects();
+        deathAdded = false;
     }
 
     public void setGameOver(boolean gameOver){

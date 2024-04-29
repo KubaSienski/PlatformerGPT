@@ -3,7 +3,14 @@ package utilz;
 import main.Game;
 
 public class Constants {
+    private static String DIFFICULTY;
 
+    public static void setDIFFICULTY(String DIFFICULTY) {
+        Constants.DIFFICULTY = DIFFICULTY;
+    }
+    public static String getDIFFICULTY() {
+        return DIFFICULTY;
+    }
 
     public static final float GRAVITY = 0.04f * Game.SCALE;
     public static final int ANI_SPEED = 20;
@@ -15,7 +22,7 @@ public class Constants {
         public static final int BOX = 3;
         public static final int SPIKE = 4;
 
-        public static final int RED_POTION_VALUE = 15;
+        public static final int RED_POTION_VALUE = 20;
         public static final int BLUE_POTION_VALUE = 10;
 
 
@@ -95,7 +102,7 @@ public class Constants {
         public static int GetEnemyDmg(int enemyType) {
             switch (enemyType) {
                 case CRABBY -> {
-                    return 15;
+                    return 20;
                 }
                 default -> {
                     return 0;

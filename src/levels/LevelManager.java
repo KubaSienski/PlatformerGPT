@@ -5,66 +5,87 @@ import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class LevelManager {
 
     private final Game game;
     private BufferedImage[] levelSprite;
-    private ArrayList<Level> levels;
-    private int lvlIndex = 0;
     private Level currentLevel;
 
-    public LevelManager(Game game){
+    private Long start, end;
+    private int time;
+
+    private int[] parameters;
+
+    private int deathCount;
+
+    LevelParameterDecisionTree decisionTree;
+
+    public LevelManager(Game game) {
         this.game = game;
         importOutsideSprites();
-        levels = new ArrayList<>();
-        buildAllLevels();
-        currentLevel = levels.get(0);
+        decisionTree = new LevelParameterDecisionTree();
+        try {
+            decisionTree.train();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        deathCount = 0;
+        BufferedImage img = LevelGenerator.generateImage(
+                Game.TILES_IN_WIDTH,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0
+        );
+        parameters = new int[]{Game.TILES_IN_WIDTH,1,0,0,0,0,0};
+        currentLevel = new Level(img);
+        start = System.currentTimeMillis();
     }
 
-    public void loadNextLevel(){
-        lvlIndex++;
-        if(lvlIndex >= levels.size()) {
-            BufferedImage img = LevelGenerator.generateImage(
-                    50,
-                    4,
-                    0,
-                    0,
-                    2,
-                    1,
-                    10
-            );
-            currentLevel = new Level(img);
-        }else
-            currentLevel = levels.get(lvlIndex);
+    public void loadNextLevel() {
+        end = System.currentTimeMillis();
+        time = (int) ((end - start)/parameters[0]);
+        try {
+            parameters = decisionTree.decideLevelParameters(deathCount, time, parameters);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        BufferedImage img = LevelGenerator.generateImage(
+                parameters[0],
+                parameters[1],
+                parameters[2],
+                parameters[3],
+                parameters[4],
+                parameters[5],
+                parameters[6]
+        );
+        deathCount = 0;
+        currentLevel = new Level(img);
+        start = System.currentTimeMillis();
         game.getPlaying().getEnemyManager().loadEnemies(currentLevel);
         game.getPlaying().getPlayer().loadLvlData(currentLevel.getLvlData());
         game.getPlaying().setMaxLvlOffsetX(currentLevel.getMaxLvlOffsetX());
         game.getPlaying().getObjectManager().loadObjects(currentLevel);
     }
 
-    private void buildAllLevels() {
-        BufferedImage[] allLevels = LoadSave.GetAllLevels();
-        for (BufferedImage img : allLevels)
-            levels.add(new Level(img));
-    }
-
     private void importOutsideSprites() {
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ATLAS);
         levelSprite = new BufferedImage[48];
-        for(int i = 0; i<4; i++){
-            for(int j = 0; j<12; j++){
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 12; j++) {
                 int index = i * 12 + j;
-                levelSprite[index] = img.getSubimage(j*32, i*32, 32,32);
+                levelSprite[index] = img.getSubimage(j * 32, i * 32, 32, 32);
             }
         }
     }
 
-    public void draw(Graphics g, int lvlOffset){
-        for(int i = 0; i < Game.TILES_IN_HEIGHT; i++){
-            for(int j = 0; j<currentLevel.getLvlTilesWide(); j++){
-                int index = currentLevel.getSpriteIndex(j,i);
+    public void draw(Graphics g, int lvlOffset) {
+        for (int i = 0; i < Game.TILES_IN_HEIGHT; i++) {
+            for (int j = 0; j < currentLevel.getLvlTilesWide(); j++) {
+                int index = currentLevel.getSpriteIndex(j, i);
                 g.drawImage(levelSprite[index], j * Game.TILES_SIZE - lvlOffset,
                         i * Game.TILES_SIZE,
                         Game.TILES_SIZE,
@@ -74,10 +95,18 @@ public class LevelManager {
         }
     }
 
-    public void update(){
+    public void update() {
     }
 
-    public Level GetCurrentLevel(){
+    public Level GetCurrentLevel() {
         return currentLevel;
+    }
+
+    public void increaseDeathCount() {
+        deathCount++;
+    }
+
+    public int getDeathCount() {
+        return deathCount;
     }
 }

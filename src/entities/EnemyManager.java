@@ -22,7 +22,6 @@ public class EnemyManager {
 
     public void loadEnemies(Level level) {
         crabbies = level.getCrabs();
-        System.out.println("size of crabs: " + crabbies.size());
     }
 
     public void update(int[][] lvlData, Player player){
@@ -54,9 +53,10 @@ public class EnemyManager {
     public void checkEnemyHit(Rectangle2D.Float attackBox){
         for(Crabby c: crabbies){
             if(c.isActive())
-                if(attackBox.intersects(c.getHitbox())){
-                    c.hurt(10);
-                    return;
+                if(c.currentHealth > 0)
+                    if(attackBox.intersects(c.getHitbox())){
+                        c.hurt(10);
+                        return;
             }
         }
     }

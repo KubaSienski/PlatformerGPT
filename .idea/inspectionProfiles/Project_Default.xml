@@ -6,6 +6,7 @@
     <inspection_tool class="StaticImport" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="allowedClasses">
         <set>
+          <option value="utilz.Constants.EnemyConstants" />
           <option value="utilz.Constants.ObjectConstants" />
         </set>
       </option>
