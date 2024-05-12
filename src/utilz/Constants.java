@@ -100,8 +100,14 @@ public class Constants {
         }
 
         public static int GetEnemyDmg(int enemyType) {
-            switch (enemyType) {
-                case CRABBY -> {
+            switch (getDIFFICULTY()) {
+                case "Easy" -> {
+                    return 15;
+                }
+                case "Hard" -> {
+                    return 25;
+                }
+                case "Medium" -> {
                     return 20;
                 }
                 default -> {

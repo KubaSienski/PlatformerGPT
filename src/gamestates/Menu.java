@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 
 public class Menu extends State implements Statemethods{
 
-    private final MenuButton[] buttons = new MenuButton[3];
+    private final MenuButton[] buttons = new MenuButton[2]; // 3 for options, not available now
     private BufferedImage backgroundImg;
     private final BufferedImage backgroundImgPink;
     private int menuX, menuY, menuWidth, menuHeight;
@@ -33,8 +33,8 @@ public class Menu extends State implements Statemethods{
 
     private void loadButtons() {
         buttons[0] = new MenuButton(Game.GAME_WIDTH/2, (int)(150*Game.SCALE), 0, GameState.PLAYING);
-        buttons[1] = new MenuButton(Game.GAME_WIDTH/2, (int)(220*Game.SCALE), 1, GameState.OPTIONS);
-        buttons[2] = new MenuButton(Game.GAME_WIDTH/2, (int)(290*Game.SCALE), 2, GameState.QUIT);
+        //buttons[1] = new MenuButton(Game.GAME_WIDTH/2, (int)(220*Game.SCALE), 1, GameState.OPTIONS);
+        buttons[1] = new MenuButton(Game.GAME_WIDTH/2, (int)(290*Game.SCALE), 2, GameState.QUIT);
     }
 
     @Override

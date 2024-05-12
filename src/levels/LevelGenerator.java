@@ -93,6 +93,8 @@ public class LevelGenerator {
                 }
             }
             isPassable = LevelValidator.isLevelPassable(image);
+            if(isPassable) System.out.println("lvl passable");
+            else System.out.println("lvl not passable");
         }
 
         return image;

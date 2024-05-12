@@ -44,29 +44,77 @@ public class LevelParameterDecisionTree {
         double classIndex = decisionTree.classifyInstance(newInstance);
         String classValue = data.attribute(data.numAttributes() - 1).value((int) classIndex);
 
+        System.out.println(Constants.getDIFFICULTY() + ", " + deaths + ", " + completionTime + ", " + classValue);
+
+        // 0-width, 1-enemy, 2-potion, 5-box, 6-spikes
         switch (classValue) {
             case "lower" -> {
-                System.out.println("ez");
-                if (parameters[0] - 2 <= 26)
-                    parameters[0] = 26;
-                else parameters[0] -= 2;
-                parameters[5]++;
-                if (parameters[6] - 1 < 0)
-                    parameters[6] = 0;
-                else parameters[6]--;
+                switch (Constants.getDIFFICULTY()) {
+                    case "Easy" -> {
+                        if (parameters[1] - 2 <= 0)
+                            parameters[1] = 0;
+                        else parameters[1] -= 2;
+
+                        parameters[2]++;
+
+                        if (parameters[6] - 2 <= 0)
+                            parameters[6] = 0;
+                        else parameters[6] -= 2;
+                    }
+                    case "Medium" -> {
+                        if (parameters[1] - 1 <= 0)
+                            parameters[1] = 0;
+                        else parameters[1]--;
+
+                        parameters[2]++;
+
+                        if (parameters[6] - 1 <= 0)
+                            parameters[6] = 0;
+                        else parameters[6]--;
+                    }
+                    case "Hard" -> {
+                        if (parameters[1] - 1 <= 0)
+                            parameters[1] = 0;
+                        else parameters[1]--;
+
+                        parameters[5]++;
+                    }
+                }
             }
             case "equal" -> {
-                System.out.println("med");
-                parameters[1]++;
+                switch (Constants.getDIFFICULTY()) {
+                    case "Easy" -> parameters[0]++;
+                    case "Medium" -> parameters[1]++;
+                    case "Hard" -> {
+                        parameters[0] += 5;
+                        parameters[1] += 2;
+                        parameters[6] += 3;
+                    }
+                }
             }
             case "higher" -> {
-                System.out.println("hard");
-                parameters[0] += 5;
-                parameters[1]++;
-                if (parameters[5] - 1 < 0)
-                    parameters[5] = 0;
-                else parameters[5]--;
-                parameters[6] += 3;
+                switch (Constants.getDIFFICULTY()) {
+                    case "Easy" -> {
+                        parameters[0] += 4;
+                        parameters[1]++;
+                        parameters[6]++;
+                    }
+                    case "Medium" -> {
+                        parameters[0] += 3;
+                        parameters[1]++;
+
+                        if (parameters[2] - 1 <= 0)
+                            parameters[2] = 0;
+                        else parameters[1]--;
+
+                        parameters[6] += 2;
+                    }
+                    case "Hard" -> {
+                        parameters[0] += 5;
+                        parameters[1] += 2;
+                        parameters[6] += 5;
+                    }
+                }
             }
         }
         return parameters;
